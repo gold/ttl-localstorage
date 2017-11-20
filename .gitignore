@@ -1,0 +1,15 @@
+### node
+node_modules/
+npm-debug.log
+.esm-cache
+.nvmrc
+
+### build directory
+dist/
+
+### emacs
+*~
+\#*\#
+
+### mac os
+.DS_Store
