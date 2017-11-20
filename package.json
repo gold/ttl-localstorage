@@ -1,5 +1,5 @@
 {
-  "name": "localstorage-ttl",
+  "name": "ttl-localstorage",
   "private": false,
   "version": "1.0.0",
   "description": "Promise-based API for Browser localStorage or Node contexts",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gold/localstorage-ttl.git"
+    "url": "https://github.com/gold/ttl-localstorage.git"
   },
   "keywords": [
     "localStorage",
@@ -21,14 +21,15 @@
     "key-value",
     "store",
     "cold sake from Japan",
+    "ttl",
     "哇"
   ],
   "author": "Gerry Gold",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gold/localstorage-ttl/issues"
+    "url": "https://github.com/gold/ttl-localstorage/issues"
   },
-  "homepage": "https://github.com/gold/localstorage-ttl#readme",
+  "homepage": "https://github.com/gold/ttl-localstorage#readme",
   "dependencies": {
     "@std/esm": "^0.16.0",
     "bluebird": "^3.5.1"
