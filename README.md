@@ -1,4 +1,4 @@
-localstorage-ttl
+ttl-localstorage
 ================
 
 Promise-based API for Browser localStorage and Node contexts.
@@ -6,7 +6,7 @@ Promise-based API for Browser localStorage and Node contexts.
 Installation
 ------------
 
-npm install localstorage-ttl --save
+npm install ttl-localstorage --save
 
 The Browser's localStorage
 --------------------------
@@ -15,12 +15,12 @@ The subtle quirks of HTML5's localStorage are replaced with a simple API that
 is intuitive to use and just gets the job done.
 
 You may be wondering: Isn't localStorage's native interface already simple to
-use? Why do I need to use <code>localstorage-ttl</code> at all? You certainly
+use? Why do I need to use <code>ttl-localstorage</code> at all? You certainly
 can use the native API, but if you do, you'll quickly discover that:
 
-1. The native localStorage can only store strings.
+1. There is no optional timeout.
 
-2. There is no optional timeout.
+2. The native localStorage can only store strings.
 
 This module takes care of these limitations lickety-split.
 
@@ -29,7 +29,7 @@ Node.js Context on the Server
 
 Sometimes we want an ultra simple way to store and retrieve objects on the back
 end in Node, without having to set up yet another server.
-<code>localstorage-ttl</code> can be used in a pure Node environment, without a
+<code>ttl-localstorage</code> can be used in a pure Node environment, without a
 browser. Examples below demonstrate how this is done.
 
 Usage and Examples
@@ -44,11 +44,11 @@ The following examples use the LocalStorage module, but MemoryStorage can use
 the same methods.
 
 ```javascript
-import { LocalStorage } from 'localstorage-ttl';
+import { LocalStorage } from 'ttl-localstorage';
 
 OR
 
-import { MemoryStorage } from 'localstorage-ttl';
+import { MemoryStorage } from 'ttl-localstorage';
 
 // store
 const data = {a: 1, b: true, stuff: {n: [2, 3, 5], composer: 'Stravinsky'}};
@@ -67,7 +67,7 @@ __More About Retrieving Stored Data__
 Inspired by Python's get() method, an optional 2nd arg is available.
 
 ```javascript
-import { LocalStorage } from 'localstorage-ttl';
+import { LocalStorage } from 'ttl-localstorage';
 
 // Retrieve a key which does not exist:
 LocalStorage.get('badKey').then((data) => {
@@ -88,11 +88,11 @@ the user.
 However, sometimes we want our storage cache to expire after a specific duration
 of time has elapsed, regardless of a user's manual interaction.
 
-<code>localstorage-ttl</code> allows a timeout value in seconds to be set. This
+<code>ttl-localstorage</code> allows a timeout value in seconds to be set. This
 timeout mechanism works for both LocalStorage and MemoryStorage usage.
 
 ```javascript
-import { LocalStorage } from 'localstorage-ttl';
+import { LocalStorage } from 'ttl-localstorage';
 
 // After a key/value is LocalStorage.put('myKey', data), the data cannot be
 // retrieved after 5 minutes has elapsed.
