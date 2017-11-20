@@ -142,8 +142,7 @@ LocalStorage.keys().then((keys) => {
 
 This can happen, for example, if iPhone's Safari browser is in private mode, in
 which case you can either alert the user to turn off private mode or just
-reinstantiate the Zowie class with a false argument to use in-memory storage
-instead of localStorage:
+use MemoryStorage instead of LocalStorage.
 
 ```javascript
 LocalStorage.isLocalStorageAvailable().then((isAvailable) => {
