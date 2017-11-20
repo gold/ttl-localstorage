@@ -1,8 +1,8 @@
 {
   "name": "localstorage-ttl",
-  "private": true,
+  "private": false,
   "version": "1.0.0",
-  "description": "simple API for browser localStorage or node storage",
+  "description": "Promise-based API for Browser localStorage or Node contexts",
   "main": "index.js",
   "module": "main.js",
   "scripts": {
