@@ -1,12 +1,12 @@
 {
   "name": "ttl-localstorage",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Promise-based API for Browser localStorage or Node contexts",
   "main": "index.js",
   "module": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "repository": {
     "type": "git",
@@ -35,10 +35,12 @@
     "bluebird": "^3.5.1"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "eslint": "4.6.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
-    "eslint-plugin-react": "^7.4.0"
+    "eslint-plugin-react": "^7.4.0",
+    "mocha": "^4.0.1"
   }
 }
