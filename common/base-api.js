@@ -97,6 +97,48 @@ export default class BaseApi {
     });
   }
 
+  // Garbage Collector: remove all keys that:
+  //
+  //   have either a global or key level timeout
+  //
+  //   AND
+  //
+  //   timeout has expired
+  //
+  // ttl-localstorage lazily removes keys if not explicitly removed via
+  // #removeKey; if a key is accessed either via #get or $keyExists, the key is
+  // removed if a timeout indicates it's expired. There is no automatic garbage
+  // collector always running to periodically clean things up.
+  //
+  // This method allows the developer to manually clean up all keys that have an
+  // expired timeout.
+  runGarbageCollector() {
+    return new Promise((resolve) => {
+      const garbageKeys = [];
+      if (this.persistent) {
+        for (const key of Object.keys(localStorage)) {
+          const obj = JSON.parse(localStorage.getItem(key));
+          if (!(this._timeout === null && obj.kt === null)) {
+            if (this._isCacheStale(obj)) {
+              localStorage.removeItem(key);
+              garbageKeys.push(key);
+            }
+          }
+        }
+      } else {
+        for (const key of this._lootBag) {
+          if (!(this._timeout === null && this._lootBag[key].kt === null)) {
+            if (this._isCacheStale(this._lootBag[key])) {
+              delete this._lootBag[key];
+              garbageKeys.push(key);
+            }
+          }
+        }
+      }
+      resolve(garbageKeys);
+    });
+  }
+
   // If a TTL is set and the key has expired, its existence is set free. :)
   keyExists(key) {
     return new Promise((resolve) => {

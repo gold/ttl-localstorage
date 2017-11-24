@@ -169,6 +169,23 @@ LocalStorage.isLocalStorageAvailable().then((isAvailable) => {
 });
 ```
 
+__The Cleaner: Optional Garbarge Collection__
+
+<code>ttl-localstorage</code> lazily removes keys if not explicitly removed via
+\#removeKey; if a key is accessed either via #get or #keyExists, the key is
+automatically removed if a timeout indicates the key has expired.
+
+There is no garbage collector always running to periodically clean things up.
+
+However, if you feel that you don't want unexpired keys lying around, we have
+provided a method to manually clean up all keys that have an expired timeout.
+
+```javascript
+LocalStorage.runGarbageCollector().then((result) => {
+  // result => list of garbage keys that have been removed
+}
+```
+
 Credits
 -------
 
