@@ -8,8 +8,8 @@ Installation
 
 npm install ttl-localstorage --save
 
-The Browser's localStorage
---------------------------
+Browser localStorage
+---------------------
 
 The subtle quirks of HTML5's localStorage are replaced with a simple API that
 is intuitive to use and just gets the job done.
@@ -18,14 +18,14 @@ You may be wondering: Isn't localStorage's native interface already simple to
 use? Why do I need to use <code>ttl-localstorage</code> at all? You certainly
 can use the native API, but if you do, you'll quickly discover that:
 
-1. There is no optional timeout.
+ - native localStorage has no optional timeout
 
-2. The native localStorage can only store strings.
+ - native localStorage can only store strings
 
-This module takes care of these limitations lickety-split.
+<code>ttl-localstorage</code> fixes these limitations.
 
-Node.js Context on the Server
------------------------------
+Node.js Context
+----------------
 
 Sometimes we want an ultra simple way to store and retrieve objects on the back
 end in Node, without having to set up yet another server.
@@ -80,26 +80,45 @@ LocalStorage.get('badKey', {a: 1, b: 2}).then((data) => {
 });
 ```
 
-__Setting A Timeout__
+TTL: Setting Timeouts
+=====================
 
-Browser's localStorage data remains available until it is manually deleted by
-the user.
+Standard localStorage data remains available until it is manually deleted by
+the user. We fixed that so the developer gets back in control.
 
-However, sometimes we want our storage cache to expire after a specific duration
-of time has elapsed, regardless of a user's manual interaction.
-
-<code>ttl-localstorage</code> allows a timeout value in seconds to be set. This
+<code>ttl-localstorage</code> allows a timeout to be set globally for all keys. This
 timeout mechanism works for both LocalStorage and MemoryStorage usage.
+
+__Global Timeout for All Keys__
+
+Just set the timeout once before <code>put</code> operations. Granularity has been kept to seconds instead of finer, impractical time units.
 
 ```javascript
 import { LocalStorage } from 'ttl-localstorage';
 
-// After a key/value is LocalStorage.put('myKey', data), the data cannot be
-// retrieved after 5 minutes has elapsed.
 LocalStorage.timeoutInSeconds = 300;
+
+LocalStorage.put(myKey, data);
+
+// myKey can't access the stored data after 5 minutes has elapsed.
 ```
 
-The timeout behavior is disabled by default (timeoutInSeconds is set to null).
+The global timeout is disabled by default (timeoutInSeconds is initialized to null).
+
+__Key Level Timeout__
+
+Set a timeout on a per-key basis. If a global timeout had already been set, the key level timeout takes priority.
+
+```javascript
+import { LocalStorage } from 'ttl-localstorage';
+
+// key will expire in 10 minutes (optional third argument)
+LocalStorage.put(ephemeralKey, data, 600);
+
+// key will expire in 1 day
+LocalStorage.put(dailyKey, data, 86400);
+
+```
 
 __Utilities__
 
