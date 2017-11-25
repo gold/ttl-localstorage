@@ -177,8 +177,8 @@ automatically removed if a timeout indicates the key has expired.
 
 There is no garbage collector always running to periodically clean things up.
 
-However, if you feel that you don't want unexpired keys lying around, we have
-provided a method to manually clean up all keys that have an expired timeout.
+However, if you don't want expired keys lying around, just #runGarbageCollector
+to manually clean up all keys that haven't been lazily deleted.
 
 ```javascript
 LocalStorage.runGarbageCollector().then((result) => {

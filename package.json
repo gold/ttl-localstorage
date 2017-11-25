@@ -1,7 +1,7 @@
 {
   "name": "ttl-localstorage",
   "private": false,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Promise-based API for Browser localStorage or Node context",
   "main": "index.js",
   "module": "main.js",
@@ -25,14 +25,14 @@
     "ttl",
     "哇"
   ],
-  "author": "Gerry Gold",
+  "author": "Gerry Gold (http://gerry.gold)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/gold/ttl-localstorage/issues"
   },
   "homepage": "https://github.com/gold/ttl-localstorage#readme",
   "dependencies": {
-    "@std/esm": "^0.16.0",
+    "@std/esm": "^0.17.0",
     "bluebird": "^3.5.1"
   },
   "devDependencies": {
