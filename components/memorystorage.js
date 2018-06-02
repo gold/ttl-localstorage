@@ -1,4 +1,4 @@
-import BaseApi from '../common/base-api';
+const BaseApi = require('../common/base-api');
 
 const IS_PERSISENT = false;
 
@@ -8,4 +8,4 @@ class MemoryStorage extends BaseApi {
   }
 }
 
-export default new MemoryStorage();
+module.exports = new MemoryStorage();

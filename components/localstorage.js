@@ -1,4 +1,4 @@
-import BaseApi from '../common/base-api';
+const BaseApi = require('../common/base-api');
 
 const IS_PERSISENT = true;
 
@@ -8,4 +8,4 @@ class LocalStorage extends BaseApi {
   }
 }
 
-export default new LocalStorage();
+module.exports = new LocalStorage();

@@ -1,6 +1,6 @@
-import Promise from 'bluebird';
+const Promise = require('bluebird');
 
-export default class BaseApi {
+class BaseApi {
   constructor(persistent) {
     this.persistent = persistent;
 
@@ -230,3 +230,5 @@ export default class BaseApi {
    }
 
 }
+
+module.exports = BaseApi;

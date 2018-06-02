@@ -1,3 +1,4 @@
-const NewAndImprovedRequire = require('@std/esm')(module, { esm: 'js' });
+const LocalStorage = require('./components/localstorage');
+const MemoryStorage = require('./components/memorystorage');
 
-module.exports = NewAndImprovedRequire('./main.js');
+module.exports = { LocalStorage, MemoryStorage };
