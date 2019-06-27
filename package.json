@@ -1,7 +1,7 @@
 {
   "name": "ttl-localstorage",
   "private": false,
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Promise-based API for Browser localStorage or Node contexts",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,9 @@
     "url": "https://github.com/gold/ttl-localstorage.git"
   },
   "browserify": {
-    "transform": ["babelify"]
+    "transform": [
+      "babelify"
+    ]
   },
   "keywords": [
     "localStorage",
@@ -34,15 +36,15 @@
   },
   "homepage": "https://github.com/gold/ttl-localstorage#readme",
   "dependencies": {
-    "bluebird": "^3.5.3"
+    "bluebird": "^3.5.5"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.8.2",
-    "mocha": "^5.2.0"
+    "chai": "^4.2.0",
+    "eslint": "^6.0.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.14.2",
+    "mocha": "^6.1.4"
   }
 }

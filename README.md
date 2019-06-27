@@ -3,6 +3,8 @@ ttl-localstorage
 
 Promise-based API for Browser localStorage and Node contexts.
 
+Synchronous mode, without promises, is optionally available.
+
 Installation
 ------------
 
@@ -186,10 +188,40 @@ LocalStorage.runGarbageCollector().then((result) => {
 }
 ```
 
+__Synchronous Mode__
+
+All methods can be called synchronously. Set the following after importing the
+ttl-localstorage instance:
+
+```javascript
+import { LocalStorage } from 'ttl-localstorage';
+
+LocalStorage.synchronous = true; // default is false
+
+// After setting the synchronous property to true, method
+// calls are now synchronous instead of promise based.
+
+const myStoredValue = LocalStorage.get('MyKey');
+```
+
+Instead of setting the synchronous property to true (refer to previous example),
+methods can be optionally called synchronously by appending 'Sync' to the method
+name:
+
+```javascript
+import { LocalStorage } from 'ttl-localstorage';
+
+// async call
+const myStoredValue = await LocalStorage.get('MyKey');
+
+// sync call
+const myStoredValue = LocalStorage.getSync('MyKey');
+
 Credits
 -------
 
-Gerry Gold<br/>
-November 2017
+Gerry Gold
+
+June 2019
 
 Have fun!

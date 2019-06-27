@@ -24,12 +24,16 @@ describe('ttl-localstorage - key-level timeout set', function() {
 
     it('data is accessable before key timeout but not after', function() {
       setTimeout(function() {
+        MemoryStorage.synchronous = false;
+
         MemoryStorage.get(key).then(function(data) {
           expect(data.c === 23).to.be.equal(true);
         });
       }, 2000);
 
       setTimeout(function() {
+        MemoryStorage.synchronous = false;
+
         MemoryStorage.get(key).then(function(data) {
           expect(data).to.be.equal(null);
         });
@@ -55,10 +59,14 @@ describe('ttl-localstorage - no timeouts set', function() {
 
   describe('#get', function() {
     it('gets object from storage', async function() {
+      MemoryStorage.synchronous = false;
+
       const storedData = await MemoryStorage.get(KEY_1);
       expect(storedData.times[1]).to.equal('then');
     });
     it('gets string from storage', async function() {
+      MemoryStorage.synchronous = false;
+
       const storedString = await MemoryStorage.get(KEY_2);
       expect(storedString).to.equal('just a string');
     });
@@ -66,24 +74,28 @@ describe('ttl-localstorage - no timeouts set', function() {
 
   describe('#keys', function() {
     it('returns a list of keys used in all put operations', async function() {
+      MemoryStorage.synchronous = false;
+
       const keyList = await MemoryStorage.keys();
       expect(keyList[2]).to.be.equal('第2のキー');
     });
   });
 
   describe('#removeKey and #keyExists', function() {
-    it('removes a key and its associated data', async function() {
-      let keyList = await MemoryStorage.keys();
+    it('removes a key and its associated data (synchronous)', function() {
+      MemoryStorage.synchronous = true;
+
+      let keyList = MemoryStorage.keys();
       expect(keyList.length).to.be.equal(3);
 
-      let keyExistsResult = await MemoryStorage.keyExists(KEY_1)
+      let keyExistsResult = MemoryStorage.keyExists(KEY_1)
       expect(keyExistsResult).to.equal(true);
 
       MemoryStorage.removeKey(KEY_1);
-      keyList = await MemoryStorage.keys();
+      keyList = MemoryStorage.keys();
       expect(keyList.length).to.be.equal(2);
 
-      keyExistsResult = await MemoryStorage.keyExists(KEY_1)
+      keyExistsResult = MemoryStorage.keyExists(KEY_1)
       expect(keyExistsResult).to.equal(false);
     });
   });
