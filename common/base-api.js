@@ -129,7 +129,8 @@ class BaseApi {
   // timeoutInSeconds setting.
   put(key, val, keyTimeout = null) {
     if (this.synchronous) {
-      return this.putSync(key, val, keyTimeout);
+      this.putSync(key, val, keyTimeout);
+      return;
     }
 
     return new Promise((resolve) => {
