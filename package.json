@@ -1,7 +1,7 @@
 {
   "name": "ttl-localstorage",
   "private": false,
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Promise-based API for Browser localStorage or Node contexts",
   "main": "index.js",
   "scripts": {
@@ -45,6 +45,8 @@
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.14.2",
+    "eslint-utils": "1.4.3",
+    "lodash": "4.17.15",
     "mocha": "^6.1.4"
   }
 }
