@@ -192,7 +192,7 @@ class BaseApi {
         }
       }
     } else {
-      for (const key of this._lootBag) {
+      for (const key of Object.keys(this._lootBag)) {
         if (!(this._timeout === null && this._lootBag[key].kt === null)) {
           if (this._isCacheStale(this._lootBag[key])) {
             delete this._lootBag[key];
@@ -237,7 +237,7 @@ class BaseApi {
           }
         }
       } else {
-        for (const key of this._lootBag) {
+        for (const key of Object.keys(this._lootBag)) {
           if (!(this._timeout === null && this._lootBag[key].kt === null)) {
             if (this._isCacheStale(this._lootBag[key])) {
               delete this._lootBag[key];
