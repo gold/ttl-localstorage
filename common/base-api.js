@@ -33,17 +33,21 @@ class BaseApi {
   getSync(key, defaultValue = null) {
     if (this.persistent) { // local storage
       if (key in localStorage) {
-        const obj = JSON.parse(localStorage.getItem(key));
+        try {
+          const obj = JSON.parse(localStorage.getItem(key));
 
-        if (this._timeout === null && obj.kt === null) {
-          return obj.v;
-        } else {
-          if (this._isCacheStale(obj)) {
-            this.removeKeySync(key);
-            return defaultValue;
-          } else {
+          if (this._timeout === null && obj.kt === null) {
             return obj.v;
+          } else {
+            if (this._isCacheStale(obj)) {
+              this.removeKeySync(key);
+              return defaultValue;
+            } else {
+              return obj.v;
+            }
           }
+        } catch (e) {
+          return defaultValue;
         }
       } else {
         return defaultValue;
@@ -80,18 +84,22 @@ class BaseApi {
     return new Promise((resolve) => {
       if (this.persistent) { // local storage
         if (key in localStorage) {
-          const obj = JSON.parse(localStorage.getItem(key));
+          try {
+            const obj = JSON.parse(localStorage.getItem(key));
 
-          if (this._timeout === null && obj.kt === null) {
-            resolve(obj.v);
-          } else {
-            if (this._isCacheStale(obj)) {
-              this.removeKey(key).then(() => {
-                resolve(defaultValue);
-              })
-            } else {
+            if (this._timeout === null && obj.kt === null) {
               resolve(obj.v);
+            } else {
+              if (this._isCacheStale(obj)) {
+                this.removeKey(key).then(() => {
+                  resolve(defaultValue);
+                })
+              } else {
+                resolve(obj.v);
+              }
             }
+          } catch (e) {
+            resolve(defaultValue);
           }
         } else {
           resolve(defaultValue);
@@ -183,12 +191,16 @@ class BaseApi {
 
     if (this.persistent) {
       for (const key of Object.keys(localStorage)) {
-        const obj = JSON.parse(localStorage.getItem(key));
-        if (!(this._timeout === null && obj.kt === null)) {
-          if (this._isCacheStale(obj)) {
-            localStorage.removeItem(key);
-            garbageKeys.push(key);
+        try {
+          const obj = JSON.parse(localStorage.getItem(key));
+          if (!(this._timeout === null && obj.kt === null)) {
+            if (this._isCacheStale(obj)) {
+              localStorage.removeItem(key);
+              garbageKeys.push(key);
+            }
           }
+        } catch (e) {
+          // skip this item
         }
       }
     } else {
@@ -228,12 +240,16 @@ class BaseApi {
       const garbageKeys = [];
       if (this.persistent) {
         for (const key of Object.keys(localStorage)) {
-          const obj = JSON.parse(localStorage.getItem(key));
-          if (!(this._timeout === null && obj.kt === null)) {
-            if (this._isCacheStale(obj)) {
-              localStorage.removeItem(key);
-              garbageKeys.push(key);
+          try {
+            const obj = JSON.parse(localStorage.getItem(key));
+            if (!(this._timeout === null && obj.kt === null)) {
+              if (this._isCacheStale(obj)) {
+                localStorage.removeItem(key);
+                garbageKeys.push(key);
+              }
             }
+          } catch (e) {
+            // skip this item
           }
         }
       } else {
@@ -253,16 +269,20 @@ class BaseApi {
   keyExistsSync(key) {
     if (this.persistent) { // local storage
       if (key in localStorage) {
-        const obj = JSON.parse(localStorage.getItem(key));
-        if (this._timeout === null && obj.kt === null) {
-          return true;
-        } else {
-          if (this._isCacheStale(obj)) {
-            this.removeKeySync();
-            return false;
-          } else {
+        try {
+          const obj = JSON.parse(localStorage.getItem(key));
+          if (this._timeout === null && obj.kt === null) {
             return true;
+          } else {
+            if (this._isCacheStale(obj)) {
+              this.removeKeySync();
+              return false;
+            } else {
+              return true;
+            }
           }
+        } catch (e) {
+          return false;
         }
       } else {
         return false;
@@ -294,17 +314,21 @@ class BaseApi {
     return new Promise((resolve) => {
       if (this.persistent) { // local storage
         if (key in localStorage) {
-          const obj = JSON.parse(localStorage.getItem(key));
-          if (this._timeout === null && obj.kt === null) {
-            resolve(true);
-          } else {
-            if (this._isCacheStale(obj)) {
-              this.removeKey(key).then(() => {
-                resolve(false);
-              });
-            } else {
+          try {
+            const obj = JSON.parse(localStorage.getItem(key));
+            if (this._timeout === null && obj.kt === null) {
               resolve(true);
+            } else {
+              if (this._isCacheStale(obj)) {
+                this.removeKey(key).then(() => {
+                  resolve(false);
+                });
+              } else {
+                resolve(true);
+              }
             }
+          } catch (e) {
+            resolve(false);
           }
         } else {
           resolve(false);
