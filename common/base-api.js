@@ -282,7 +282,7 @@ class BaseApi {
             }
           }
         } catch (e) {
-          return false;
+          return true;
         }
       } else {
         return false;
@@ -328,7 +328,7 @@ class BaseApi {
               }
             }
           } catch (e) {
-            resolve(false);
+            resolve(true);
           }
         } else {
           resolve(false);
