@@ -33,8 +33,10 @@ class BaseApi {
   getSync(key, defaultValue = null) {
     if (this.persistent) { // local storage
       if (key in localStorage) {
+        const val = localStorage.getItem(key);
+
         try {
-          const obj = JSON.parse(localStorage.getItem(key));
+          const obj = JSON.parse(val);
 
           if (this._timeout === null && obj.kt === null) {
             return obj.v;
@@ -47,7 +49,7 @@ class BaseApi {
             }
           }
         } catch (e) {
-          return defaultValue;
+          return defaultValue === null ? val : defaultValue;
         }
       } else {
         return defaultValue;
@@ -84,8 +86,10 @@ class BaseApi {
     return new Promise((resolve) => {
       if (this.persistent) { // local storage
         if (key in localStorage) {
+          const val = localStorage.getItem(key);
+
           try {
-            const obj = JSON.parse(localStorage.getItem(key));
+            const obj = JSON.parse(val);
 
             if (this._timeout === null && obj.kt === null) {
               resolve(obj.v);
@@ -99,7 +103,7 @@ class BaseApi {
               }
             }
           } catch (e) {
-            resolve(defaultValue);
+            resolve(defaultValue === null ? val : defaultValue);
           }
         } else {
           resolve(defaultValue);
