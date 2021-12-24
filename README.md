@@ -1,14 +1,12 @@
 ttl-localstorage
 ================
 
-Promise-based API for Browser localStorage and Node contexts.
-
-Synchronous mode, without promises, is optionally available.
+API for Browser localStorage and Node contexts.
 
 Installation
 ------------
 
-npm install ttl-localstorage --save
+npm i ttl-localstorage
 
 Browser localStorage
 ---------------------
@@ -30,7 +28,7 @@ Node.js Context
 ----------------
 
 Sometimes we want an ultra simple way to store and retrieve objects on the back
-end in Node, without having to set up yet another server.
+end in Node, without having to set up yet another db or key-value store.
 <code>ttl-localstorage</code> can be used in a pure Node environment, without a
 browser. Examples below demonstrate how this is done.
 
@@ -53,15 +51,11 @@ OR
 import { MemoryStorage } from 'ttl-localstorage';
 
 // store
-const data = {a: 1, b: true, stuff: {n: [2, 3, 5], composer: 'Stravinsky'}};
-LocalStorage.put('myKey', data).then(() => {
-  // data is in browser's localStorage
-});
+const data = { a: 1, b: true, stuff: { n: [2, 3, 5], composer: 'Stravinsky' } };
+LocalStorage.put('myKey', data);
 
 // retrieve
-LocalStorage.get('myKey').then((data) => {
-  // do what you need with data
-});
+const data = LocalStorage.get('myKey');
 ```
 
 __More About Retrieving Stored Data__
@@ -72,14 +66,12 @@ Inspired by Python's get() method, an optional 2nd arg is available.
 import { LocalStorage } from 'ttl-localstorage';
 
 // Retrieve a key which does not exist:
-LocalStorage.get('badKey').then((data) => {
-  // data => null
-})
+const data = LocalStorage.get('badKey');
+// data => null
 
 // Retrieve a key which does not exist using an optional 2nd arg
-LocalStorage.get('badKey', {a: 1, b: 2}).then((data) => {
-  // data => {"a": 1, "b": 2}
-});
+LocalStorage.get('badKey', { a: 1, b: 2 });
+// data => { "a": 1, "b": 2 }
 ```
 
 TTL: Setting Timeouts
@@ -135,18 +127,16 @@ has not yet expired, resolves to true; if key exists and timeout indicates this
 key has expired, then the key is removed and then resolves to false.
 
 ```javascript
-LocalStorage.keyExists(key).then((result) = {
-  // result => boolean
-});
+const result = LocalStorage.keyExists(key);
+// result => boolean
 ```
 
 `removeKey(key)`, as its name suggests, merely removes the key if it exists. If the
 key does not exist, it's a no-op.
 
 ```javascript
-LocalStorage.removeKey(key).then(() => {
-  // key has been removed
-});
+LocalStorage.removeKey(key);
+// key has been removed
 ```
 
 `clear()` removes all keys and data.
@@ -154,9 +144,7 @@ LocalStorage.removeKey(key).then(() => {
 `keys()` returns a list of keys.
 
 ```javascript
-LocalStorage.keys().then((keys) => {
-  // keys => list of keys
-});
+const keyList = LocalStorage.keys();
 ```
 
 `isLocalStorageAvailable()` detects if localStorage is available.
@@ -166,9 +154,8 @@ which case you can either alert the user to turn off private mode or just
 use MemoryStorage instead of LocalStorage.
 
 ```javascript
-LocalStorage.isLocalStorageAvailable().then((isAvailable) => {
-  // isAvailable => boolen
-});
+const isAvailable = LocalStorage.isLocalStorageAvailable();
+isAvailable => boolean
 ```
 
 __The Cleaner: Optional Garbarge Collection__
@@ -177,51 +164,22 @@ __The Cleaner: Optional Garbarge Collection__
 \#removeKey; if a key is accessed either via #get or #keyExists, the key is
 automatically removed if a timeout indicates the key has expired.
 
-There is no garbage collector always running to periodically clean things up.
+There is no garbage collector mechanism always running to periodically clean
+things up.
 
-However, if you don't want expired keys lying around, just #runGarbageCollector
-to manually clean up all keys that haven't been lazily deleted.
+However, if you don't want expired keys lying around, just execute
+runGarbageCollector() to manually clean up all keys that haven't been lazily
+deleted.
 
 ```javascript
-LocalStorage.runGarbageCollector().then((result) => {
-  // result => list of garbage keys that have been removed
-}
+const removedKeys = LocalStorage.runGarbageCollector();
 ```
-
-__Synchronous Mode__
-
-All methods can be called synchronously. Set the following after importing the
-ttl-localstorage instance:
-
-```javascript
-import { LocalStorage } from 'ttl-localstorage';
-
-LocalStorage.synchronous = true; // default is false
-
-// After setting the synchronous property to true, method
-// calls are now synchronous instead of promise based.
-
-const myStoredValue = LocalStorage.get('MyKey');
-```
-
-Instead of setting the synchronous property to true (refer to previous example),
-methods can be optionally called synchronously by appending 'Sync' to the method
-name:
-
-```javascript
-import { LocalStorage } from 'ttl-localstorage';
-
-// async call
-const myStoredValue = await LocalStorage.get('MyKey');
-
-// sync call
-const myStoredValue = LocalStorage.getSync('MyKey');
 
 Credits
 -------
 
 Gerry Gold
 
-June 2019
+June December 2021
 
 Have fun!
