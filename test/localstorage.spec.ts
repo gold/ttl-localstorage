@@ -14,11 +14,30 @@ const DATA_1 = Object.freeze({
 const KEY_2 = '第2のキー';
 const DATA_2 = 'just a string'
 
-describe('LocalStorage', () => {
+describe('LocalStorage Tests', () => {
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Key Level Timeout Set
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // Top Level Timeout Set
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  describe('given timeoutInSeconds property', () => {
+    it('should accept positive integer when setting a value', () => {
+      Cache.timeoutInSeconds = 23;
+      expect(Cache.timeoutInSeconds).to.equals(23);
+    });
+
+    it('should accept null value to effectively disable top level ttl', () => {
+      Cache.timeoutInSeconds = null;
+      expect(Cache.timeoutInSeconds).to.equals(null);
+    });
+
+    it('should throw an exception if unacceptable value', () => {
+      expect(() => Cache.timeoutInSeconds = -200).throw();
+    });
+  });
+
   describe('put method with key-level timeouts', function() {
 
     this.timeout(10000);
@@ -132,6 +151,64 @@ describe('LocalStorage', () => {
         done();
       }, 2000);
     });
+  });
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // Utilities
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  describe('Utilties', function() {
+    describe('given runGarbageCollector method', function() {
+      this.timeout(10000);
+      it('remove only keys that have been expired', function(done) {
+        Cache.put('key1', 'data 1 ttl', 1);
+        Cache.put('key2', 'data 1 ttl also', 1);
+        Cache.put('key3', 'data 20 ttl', 20);
+        Cache.put('key4', 'data no expire');
+
+        setTimeout(function() {
+          Cache.timeoutInSeconds = null;
+          const removedKeys = Cache.runGarbageCollector();
+          expect(removedKeys.length).to.equals(2);
+          expect(Cache.keyExists('key1')).to.equals(false);
+          expect(Cache.keyExists('key2')).to.equals(false);
+          expect(Cache.keyExists('key3')).to.equals(true);
+          expect(Cache.keyExists('key4')).to.equals(true);
+          done();
+        }, 3000);
+      });
+    });
+
+    describe('given isLocalStorageAvailable method in browser contexts', () => {
+      it('returns true if available', function() {
+        const actualResult = Cache.isLocalStorageAvailable();
+        expect(actualResult).to.equals(true);
+      });
+    })
+
+    describe('given isPositiveInteger method', () => {
+      it('should return true if value is a positive integer, false otherwise', () => {
+        const items =  [
+          { input: 300, expectedResult: true },
+          { input: 86400, expectedResult: true },
+          { input: 86400.00, expectedResult: true },
+          { input: 0, expectedResult: false },
+          { input: -100, expectedResult: false },
+          { input: '3600', expectedResult: false },
+          { input: [100], expectedResult: false },
+          { input: { n: 1200 }, expectedResult: false },
+          { input: 25.05, expectedResult: false },
+          { input: null, expectedResult: false }
+        ];
+
+        for (const item of items) {
+          const { input, expectedResult } = item;
+
+          // @ts-ignore calling private static method for this test;
+          const actualResult = Cache.constructor.isPositiveInteger(input);
+          expect (actualResult).to.equals(expectedResult, `input: ${input}`);
+        }
+      });
+    })
   });
 
 });

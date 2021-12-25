@@ -13,7 +13,8 @@ class BaseStorageApi {
   *                   keys that don't have a key-leve ttl set.
   */
   public set timeoutInSeconds(ttlValue: TTL) {
-    if (BaseStorageApi.isPositiveInteger(ttlValue)) {
+    // Allow null to be set to disable a numeric top-level ttl
+    if (ttlValue === null || BaseStorageApi.isPositiveInteger(ttlValue)) {
       this._ttl = ttlValue;
     } else {
       throw new Error(`'${ttlValue}' is not a positive integer required when setting the top-level TTL`);
@@ -229,6 +230,23 @@ class BaseStorageApi {
     }
 
     return garbageKeys;
+  }
+
+  /**
+   * @public
+   * @returns true if browser's localStorage is available, false otherwise
+   */
+  public isLocalStorageAvailable(): boolean {
+    const key = new Date().getTime().toString();
+    const val = key;
+
+    try {
+      localStorage.setItem(key, val);
+      localStorage.removeItem(key);
+      return true;
+    } catch(ex) {
+      return false;
+    }
   }
 
   /**

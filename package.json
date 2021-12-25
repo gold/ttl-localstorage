@@ -1,8 +1,8 @@
 {
   "name": "ttl-localstorage",
   "private": false,
-  "version": "1.5.4",
-  "description": "Extended API with TTL for localStorage: Browser or Node Server contexts",
+  "version": "2.0.0",
+  "description": "localStorage API with TTL for Browser or Node Server contexts",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -11,8 +11,10 @@
   "scripts": {
     "dev": "npx ts-node src/index.ts",
     "build": "rm -rf dist && npx tsc",
-    "test": "./node_modules/.bin/ts-mocha --require mock-local-storage --config '.mocharc.js'",
-    "test-watch": "./node_modules/.bin/ts-mocha --require mock-local-storage --config '.mocharc.js' --watch --watch-files src, test"
+    "testLocalStorage": "npx ts-mocha --require mock-local-storage --config '.mocharc.js' -g 'LocalStorage Tests'",
+    "testMemoryStorage": "npx ts-mocha --config '.mocharc.js' -g 'MemoryStorage Tests'",
+    "test": "npm run testLocalStorage && npm run testMemoryStorage",
+    "test-watch": "npx ts-mocha --require mock-local-storage --config '.mocharc.js' --watch --watch-files src, test"
   },
   "repository": {
     "type": "git",
